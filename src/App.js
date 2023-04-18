@@ -36,6 +36,25 @@ function App() {
     });
   }
 
+  function handleDeleteTodo(id) {
+    let deletedTodo = document.getElementById(`todo-${id}`);
+    if (deletedTodo) {
+      deletedTodo.style.opacity = 0;
+      deletedTodo.style.transition = 'opacity 0.5s ease-out';
+    }
+    setTimeout(() => {
+      setTodos((prevTodos) => {
+        const filteredTodos = prevTodos.filter((todo) => todo.id !== id);
+        return filteredTodos;
+      });
+      if (deletedTodo) {
+        deletedTodo.style.opacity = null;
+        deletedTodo.style.transition = null;
+      }
+      deletedTodo = null;
+    }, 400);
+  }
+
   function handleEditTodoStart(id) {
     setEditingId(id);
   }
@@ -57,25 +76,6 @@ function App() {
     setEditingId(null)
   }
 
-  function handleDeleteTodo(id) {
-    let deletedTodo = document.getElementById(`todo-${id}`);
-    if (deletedTodo) {
-      deletedTodo.style.opacity = 0;
-      deletedTodo.style.transition = 'opacity 0.5s ease-out';
-    }
-    setTimeout(() => {
-      setTodos((prevTodos) => {
-        const filteredTodos = prevTodos.filter((todo) => todo.id !== id);
-        return filteredTodos;
-      });
-      if (deletedTodo) {
-        deletedTodo.style.opacity = null;
-        deletedTodo.style.transition = null;
-      }
-      deletedTodo = null;
-    }, 400);
-  }
-
   useEffect(() => {
     const handleMouseDown = (e) => {
       if (editingId && editInputRef.current && !editInputRef.current.contains(e.target)) {
@@ -88,7 +88,25 @@ function App() {
     };
   }, [editingId, editingText]);
 
-  console.log(todos)
+  function allAreDone(){
+    const allAreDone = (todo) => todo.done === true;
+    return todos.every(allAreDone)
+  }
+
+  function selectAll() {
+    if (allAreDone()) {
+      console.log('every')
+      const updatedArray = todos.map((todo) => {
+        return { ...todo, done: false };
+      });
+      setTodos(updatedArray);
+    } else {
+      const updatedArray = todos.map((todo) => {
+        return { ...todo, done: true };
+      });
+      setTodos(updatedArray);
+    }
+  }
 
   return (
     <div className='App'>
@@ -127,6 +145,12 @@ function App() {
           })
         }
       </div>
+      {todos.length > 0 &&
+        <>
+          <button className='selectAllButton' onClick={selectAll}>{allAreDone()? 'Unselect all' : 'Select all'}</button>
+          <button className='deleteAllButton' onClick={() => setTodos([])}>Delete all</button>
+        </>
+      }
     </div>
   );
 }

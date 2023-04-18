@@ -40,7 +40,7 @@ body {
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  margin-left: 1rem;
 }
 
 .title-and-addtodo-container button:hover {
@@ -74,4 +74,27 @@ body {
   color: black;
   margin-left: 8px;
   border-radius: 50%;
+}
+
+.deleteAllButton{
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  background-color: red;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.selectAllButton{
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-right: 1rem;
 }
